@@ -1,0 +1,9 @@
+---
+title: "About this site"
+description: This website consists of a collection of work done by Amber
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
