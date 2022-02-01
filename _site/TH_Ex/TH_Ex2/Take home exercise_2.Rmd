@@ -1,7 +1,7 @@
 ---
 title: "Take Home Exercise 2"
 description: |
- This article is about creating a pyramid
+ This article is about creating a Pareto chart and a pyramid
 author:
   - name: Chentao Liu
     url: https://www.linkedin.com/in/amber-chentao-liu/
@@ -31,6 +31,61 @@ for(p in packages){
   library(p, character.only = T)
   }
 ```
+
+
+## data import
+```{r}
+orders <- read_xls("data/Superstore-2021.xls",
+                  sheet = "Orders")
+returns <- read_xls("data/Superstore-2021.xls",
+                  sheet = "Returns")
+```
+
+
+## data wrangling
+### Joining the two data frames
+```{r}
+joined_tab <- left_join(returns, orders,
+                        by = c('Order ID' = 'Order ID'))
+```
+
+### Compute the frequency count by Sub-category
+
+*The count method*
+```{r}
+freq_returned <- joined_tab %>% 
+  count(`Sub-Category`) %>%
+  rename(Returns = n)
+```
+
+### Sorting data
+```{r}
+freq_sorted <- freq_returned %>%
+  arrange(desc(Returns))
+```
+
+### Computing the cumulative frequency
+```{r}
+freq_cum <- freq_sorted %>%
+  mutate(cumfreq = cumsum(Returns))
+```
+
+## Graphing the pareto chart
+```{r}
+ggplot()+
+  geom_bar(data = freq_cum, aes(x=reorder(freq_cum$'Sub-Category',-freq_cum$Returns), y=freq_cum$Returns),stat = 'identity', fill = 'light blue') +
+  geom_point(data = freq_cum,
+        aes(x=freq_cum$`Sub-Category`,y=freq_cum$cumfreq))+
+  geom_line(data = freq_cum,
+        aes(x=freq_cum$`Sub-Category`,y=freq_cum$cumfreq,group =1))+
+  scale_y_continuous(
+    name='absolute frequency',breaks = seq(0,4000,322.6),
+    sec.axis = sec_axis(~(./sum(freq_cum$Returns)),breaks = seq(0,2,by=0.1),labels = scales::percent))+
+  labs(title = 'Pareto Chart of return by sub-category', x='Sub-Category')+
+  theme_bw(base_size = 7)
+```
+
+# Task 2
 
 ## A age-sex pyramid showing the demographic structure of Singapore by age cohort and gender.
 ## data import
