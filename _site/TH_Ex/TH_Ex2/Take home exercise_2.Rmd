@@ -1,0 +1,99 @@
+---
+title: "Take Home Exercise 2"
+description: |
+ This article is about creating a pyramid
+author:
+  - name: Chentao Liu
+    url: https://www.linkedin.com/in/amber-chentao-liu/
+    affiliation: Master of IT in Business at SMU
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Task 1
+
+## A pareto chart showing the distribution of returns by product sub-category.
+
+## Installing and loading the required packages
+
+```{r}
+packages = c('tidyverse', 'readxl', 'knitr')
+
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+  }
+```
+
+## A age-sex pyramid showing the demographic structure of Singapore by age cohort and gender.
+## data import
+```{r}
+residents_stats<- read_csv("data/respopagesextod2021.csv")
+```
+## data wrangling
+
+### Subset the dataframe
+```{r}
+residents_data <- residents_stats[c(3,4,6)]
+```
+
+### Arrange Age in ascending order
+```{r}
+residents_data_ordered <- residents_stats %>%
+  arrange(AG)
+```
+
+### Groupby age and sex and sum the population of each group
+```{r}
+residents_data_sorted <- residents_data_ordered %>% group_by(AG, Sex) %>%
+                                        summarise(Pop = sum(Pop))
+```
+
+## Graphing the pyramid
+```{r}
+ggplot(residents_data_sorted, aes(x = AG, fill = Sex,
+                                  y = ifelse(test = Sex =='Males',
+                                          yes = -Pop, no = Pop))) +
+      geom_bar(stat = 'identity') +
+      coord_flip()+
+    scale_y_continuous(name='Male versus Female Population',breaks = seq(-160000,160000,20000),labels =abs(seq(-160000,160000,20000)))+
+  theme(axis.text.x=element_text(size=5))+
+  labs(title = 'Age-Sex Pyramid of Singapore Population by Age Group and Sex', x='Age Group')
+```
+# Comparision between programmatic visualization and GUI software(Tableau)
+
+## GUI software
+
+* Pros
+  + High Performance
+  + Mobile-Friendly
+  + Great Asthetics
+  + User-Friendly
+* Cons
+  + Poor Versioning
+  + No automatic refreshing of reports
+  + No version control
+  + Not a comprehensive solution
+  
+## Programmatic Visualization
+
+* Pros
+  + High Performance
+  + Version Control
+  + Data Wrangling
+  + Comprehensive solution
+  + Open Source
+  
+* Cons
+  + Not Mobile-Friendly
+  + Not User-Friendly
+  + Limited Asthetics
+  
+  
