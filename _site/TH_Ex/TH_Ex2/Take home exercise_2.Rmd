@@ -1,0 +1,196 @@
+---
+title: "Take Home Exercise 2"
+description: |
+ This article is about enhancing pareto chart with animations
+author:
+  - name: Chentao Liu
+    url: https://www.linkedin.com/in/amber-chentao-liu/
+    affiliation: Master of IT in Business at SMU
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Task 0: Fixing erros in Take Home Exercise 1
+
+## A age-sex pyramid showing the demographic structure of Singapore by age cohort and gender.
+
+## Installing and loading the required packages
+
+```{r}
+packages = c('tidyverse', 'readxl', 'knitr')
+
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+## data import
+```{r}
+residents_stats<- read_csv("data/respopagesextod2021.csv")
+```
+## data wrangling
+
+### Subset the dataframe
+```{r}
+residents_data <- residents_stats[c(3,4,6)]
+```
+
+### Groupby age and sex and sum the population of each group
+```{r}
+residents_data_sorted <- residents_data %>% group_by(AG, Sex) %>%
+                                        summarise(Pop = sum(Pop)) %>%
+                                        ungroup()
+```
+
+## Graphing the pyramid
+```{r}
+ggplot(residents_data_sorted, aes(x = AG, fill = Sex,
+                                  y = ifelse(test = Sex =='Males',
+                                          yes = -Pop, no = Pop))) +
+      geom_bar(stat = 'identity') +
+      coord_flip()+
+    scale_y_continuous(name='Male versus Female Population',
+    breaks = seq(-160000,160000,20000),labels =abs(seq(-160000,160000,20000)))+
+  theme(axis.text.x=element_text(size=5))+
+  labs(title = 'Age-Sex Pyramid of Singapore Population by Age Group and Sex', x='Age Group')
+```
+
+## Fixing the previous mistake/sorting data table
+### Transforming males data
+```{r}
+males <- residents_stats %>%
+  filter(`Sex` ==  "Males") %>%
+  mutate (Pop = -Pop)
+glimpse(males)
+```
+
+### Forming new dataset
+```{r}
+females <-residents_stats%>%
+  filter(`Sex` ==  "Females") 
+pop <- rbind(males,females)
+```
+
+### Forming the axis
+```{r}
+pop$AG <- factor (pop$AG, levels = unique(pop$AG)) 
+xbrk <- seq(-200000, 200000, 50000)
+xlabl <- paste0(as.character(c(seq(200, 0, -50), seq(50, 200, 50))), "k")
+```
+
+### Graphing the age-sex pyramid again
+```{r}
+ggplot(pop, aes (x = AG, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = .6 ) +
+  scale_y_continuous(breaks = xbrk, labels = xlabl, name = "Population Size") +
+  xlab("Age Groups") +
+  coord_flip() +
+  theme_bw()
+```
+
+# Task 1: graphing a static pyramid
+
+## Apply appropriate interactivity and animation methods to design an age-sex pyramid based data visualisation to show the changes of demographic structure of Singapore by age cohort and gender between 2000-2020 at planning area level
+## data import
+```{r}
+pop_1 <- read_csv("data/respopagesextod2000to2010.csv")
+pop_2 <-read_csv("data/respopagesextod2011to2020.csv")
+```
+
+## binding the two data frames together with same variables
+```{r}
+total_pop <-rbind(pop_1, pop_2)
+```
+
+## Graphing the static pyramid as shown above
+### Transforming males data
+```{r}
+pop_males <- total_pop %>%
+  filter(`Sex` ==  "Males") %>%
+  mutate (Pop = -Pop)
+glimpse(pop_males)
+```
+
+### Forming new dataset
+```{r}
+pop_females <-total_pop%>%
+  filter(`Sex` ==  "Females") 
+pop_data <- rbind(pop_males,pop_females)
+```
+
+## Forming the axis
+```{r}
+pop_data$AG <- factor (pop_data$AG, levels = unique(pop_data$AG)) 
+xbrks <- seq(-200000, 200000, 50000)
+xlabls <- paste0(as.character(c(seq(200, 0, -50), seq(50, 200, 50))), "k")
+```
+
+## Graphing the (static) age-sex pyramid showing the changes of demographic structure of Singapore by age cohort and gender between 2000 to 2020 
+```{r}
+ggplot(pop_data, aes (x = AG, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = .6 ) +
+  scale_y_continuous(breaks = xbrks, labels = xlabls, name = "Population Size") +
+  xlab("Age Groups") +
+  coord_flip() +
+  theme_bw()
+```
+
+## Subsetting dataframe with selective rows variables to reduce processing time 
+```{r}
+pop_subset <-subset(pop_data,PA %in% c("Ang Mo Kio","Bedok","Bishan","Bukit Batok",
+"Bukit Merah", "Bukit Panjang","Bukit Timah", "Clementi","Geylang","Hougang","Jurong East","Jurong West"))
+```
+
+## Using Facet Wrap
+```{r fig.align="center", echo = FALSE,fig.width = 14,height = 14}
+p <-ggplot(pop_subset, aes (x = AG, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = .6 ) +
+  scale_y_continuous(breaks = xbrks, labels = xlabls, name = "Population Size") +
+  xlab("Age Groups") +
+  coord_flip() +
+  theme_bw() +
+  labs(title = 'Age-Sex Pyramid of SG Pop by AgeGroup and Sex in Selective Region', x='Age Group')
+w <- p+ facet_wrap(~PA,ncol =3, nrow =4)
+```
+
+# Task 1: Making the Facet Wrap Pyramid animated 
+## Installing and launching the requried R packages
+```{r}
+packages = c('ggiraph', 'plotly', 
+             'DT', 'patchwork',
+             'gganimate', 'tidyverse',
+             'readxl', 'gifski', 'gapminder')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+```
+
+## Building the animated pyramid transitioning from 2000 to 2020
+```{r fig.align="center", echo = FALSE,fig.width = 14,height = 14}
+p <-ggplot(pop_subset, aes (x = AG, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = .6 ) +
+  scale_y_continuous(breaks = xbrks, labels = xlabls, name = "Population Size") +
+  xlab("Age Groups") +
+  coord_flip() +
+  theme_bw() +
+  labs(title = 'Age-Sex Pyramid of SG Pop by AgeGroup and Sex in Selective Region', x='Age Group') +
+  transition_time(Time)+
+  ease_aes("linear")
+p+ facet_wrap(~PA,ncol =3, nrow =4)
+```
+
+~~failed attempt~~
+~~ggplotly(w,session="knitr")~~
+~~I have attempted the above code,however,although I suceedeed at one point, it froze my entire program due to limited computing power so I had to kill it~~
+

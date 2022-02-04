@@ -1,5 +1,5 @@
 ---
-title: "Take Home Exercise 1.1"
+title: "Take Home Exercise 1"
 description: |
  This article is about creating a Pareto chart and a pyramid
 author:
