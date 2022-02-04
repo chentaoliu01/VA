@@ -1,7 +1,7 @@
 ---
 title: "Take Home Exercise 2"
 description: |
- This article is about enhancing pareto chart with animations
+ This article is about enhancing pyramid graph with animations
 author:
   - name: Chentao Liu
     url: https://www.linkedin.com/in/amber-chentao-liu/
@@ -23,7 +23,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 packages = c('tidyverse', 'readxl', 'knitr')
-
 for(p in packages){
   if(!require(p, character.only = T)){
     install.packages(p)
@@ -193,4 +192,3 @@ p+ facet_wrap(~PA,ncol =3, nrow =4)
 ~~failed attempt~~
 ~~ggplotly(w,session="knitr")~~
 ~~I have attempted the above code,however,although I suceedeed at one point, it froze my entire program due to limited computing power so I had to kill it~~
-

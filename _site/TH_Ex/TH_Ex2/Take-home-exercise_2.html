@@ -89,7 +89,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Take Home Exercise 2</title>
 
-  <meta property="description" itemprop="description" content="This article is about enhancing pareto chart with animations" />
+  <meta property="description" itemprop="description" content="This article is about enhancing pyramid graph with animations" />
 
 
   <!--  https://schema.org/Article -->
@@ -100,19 +100,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Take Home Exercise 2" />
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="This article is about enhancing pareto chart with animations" />
+  <meta property="og:description" content="This article is about enhancing pyramid graph with animations" />
   <meta property="og:locale" content="en_US" />
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary" />
   <meta property="twitter:title" content="Take Home Exercise 2" />
-  <meta property="twitter:description" content="This article is about enhancing pareto chart with animations" />
+  <meta property="twitter:description" content="This article is about enhancing pyramid graph with animations" />
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Take Home Exercise 2"]},{"type":"character","attributes":{},"value":["This article is about enhancing pareto chart with animations\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Chentao Liu"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/amber-chentao-liu/"]},{"type":"character","attributes":{},"value":["Master of IT in Business at SMU"]},{"type":"character","attributes":{},"value":["https://scis.smu.edu.sg/master-it-business"]}]}]},{"type":"character","attributes":{},"value":["2022-02-04"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Take Home Exercise 2"]},{"type":"character","attributes":{},"value":["This article is about enhancing pyramid graph with animations\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Chentao Liu"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/amber-chentao-liu/"]},{"type":"character","attributes":{},"value":["Master of IT in Business at SMU"]},{"type":"character","attributes":{},"value":["https://scis.smu.edu.sg/master-it-business"]}]}]},{"type":"character","attributes":{},"value":["2022-02-04"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1459,7 +1459,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Take Home Exercise 2","description":"This article is about enhancing pareto chart with animations","authors":[{"author":"Chentao Liu","authorURL":"https://www.linkedin.com/in/amber-chentao-liu/","affiliation":"Master of IT in Business at SMU","affiliationURL":"https://scis.smu.edu.sg/master-it-business","orcidID":""}],"publishedDate":"2022-02-04T00:00:00.000+08:00","citationText":"Liu, 2022"}
+{"title":"Take Home Exercise 2","description":"This article is about enhancing pyramid graph with animations","authors":[{"author":"Chentao Liu","authorURL":"https://www.linkedin.com/in/amber-chentao-liu/","affiliation":"Master of IT in Business at SMU","affiliationURL":"https://scis.smu.edu.sg/master-it-business","orcidID":""}],"publishedDate":"2022-02-04T00:00:00.000+08:00","citationText":"Liu, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1472,7 +1472,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>Take Home Exercise 2</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>This article is about enhancing pareto chart with animations</p></p>
+<p><p>This article is about enhancing pyramid graph with animations</p></p>
 </div>
 
 <div class="d-byline">
@@ -1488,7 +1488,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class="va">packages</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">&#39;tidyverse&#39;</span>, <span class="st">&#39;readxl&#39;</span>, <span class="st">&#39;knitr&#39;</span><span class="op">)</span>
-
 <span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="va">packages</span><span class="op">)</span><span class="op">{</span>
   <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">p</span>, character.only <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
