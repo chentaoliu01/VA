@@ -1,0 +1,335 @@
+---
+title: "Data Viz Makeover 1"
+author: "Amber"
+date: "2/9/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data Viz Makeover objectives
+
+Critics and remake of a particular data visualization 
+*This was written as part of the requirements for ISSS608 Visual Analytics module of SMU's Master of IT in Business Program*
+
+## **1.0 Original Data Visualization**
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Original Viz.png) 
+
+## **2.0 Data Source** 
+The data visualization above is created by using data provided by Singapore Minstry of Manpower(MOM). The data can be retrieve from the here [https://stats.mom.gov.sg/Pages/LabourForceTimeSeries.aspx].
+
+## **3.0 Critics**
+
+## 3.1 Evaluation criteria (clarity)
+
+### 3.11 Vague visualization Header 
+The header fails to include the groups which the data is organized into.  
+The header fails to indicate the data collection period.  
+
+### 3.12 Meaningless visualization header
+The header is not translating the message of the graph.    
+
+### 3.13 Improper labeling of y-axis
+The y-axis is showing an abbreviation of "Lfpr" which the reader will not be able to understand. The number shown on y-axis is also missing units.     
+
+### 3.14 Misleading naming of the age groups
+The phrase "70 & Over" implies that this age group covers people age 70 and above which includes the other age group which is "75 & Over".    
+
+### 3.15 Misleading arrangements of age groups 
+Different age groups are put at random places so that the bars can be seen with ascending heights.
+The result is entertaining but can create a illusion of an steady increase in participating rates.
+
+## 3.2 Evaluation criteria (aesthetics)
+
+### 3.21 Noisy Colors
+Colors are too vibrant distracting readers' attention from the data itself.
+Coloring different age groups differently is also meaningless since all age groups are in the span of five years.
+
+### 3.22 Crowded x-axis labels
+The bottom x-axis label is showing multiple year, looking crowded.
+
+### 3.23 Messy legends
+Legends are in random orders, making readers very hard to follow.
+
+## **4.0 Alternative Graphical Representations Suggestions** 
+
+## 4.1 Evaluation criteria (clarity)
+
+### 4.11 Vague visualization Header 
+The header should include the the words "Age" & "Sex" which the data is organized by.
+The header should include the time period of "1991-2021".
+
+### 4.12 Meaningful visualization header
+The header should include a subtitle underneath the header to translate the message of the graph.    
+
+### 4.13 Proper labeling of y-axis
+The y-axis should expand on the abbreviation and write "labor force participation rate (%)".
+
+### 4.14 Misleading naming of the age groups
+The phrase "70 & Over" should be removed.
+
+### 4.15 Misleading arrangements of age groups 
+The bar should be arranged in ascending order from youngest age group to oldest age group.
+
+## 4.2 Evaluation criteria (aesthetics)
+
+### 4.21 "Noisy" Color
+Colors should correspond to different meanings. Males could be labeled blue and females could be labeled red.
+Age group should either have no colors or less vibrant colors
+
+### 4.22 Labels should be simple and straightforward
+The bottom x-axis label should have only one year or can be deleted completely.
+
+### 4.23 Messy legends
+Legends should be neatly organized from youngest to oldest (Age Group) so readers can easily follow.
+
+## **5.0 Alternative Graphical Representations Sketch**
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Draft.jpg) 
+
+Main issues to overcome:
+
+### 5.1 This sketch is mainly designed to address the issue of "Misleading arrangement of Age Group"
+By arranging Age Groups from left to right (from youngest age group to oldest age group) and divided up by the 1991-2021 period, the designed visualization should reveal insights regarding change of participation rate within each age group over the 10 year period of time.
+
+### 5.2 This sketch also attempts to reveal trends among residents of different sex 
+By adding a second line chart, this visualization can reveal if different sex residents exhibit different trend in labor force participation rate.
+
+
+### 5.3 The subtitles are also meant to address the issue of original sketch having generic title
+The subtitles are be used to reveal insights directly instead of asking readers to guess.
+
+## **6.0 Proposed Data Visualization**
+
+### 6.1 Data Preparation
+*Excel file used here was downloaded from here [https://stats.mom.gov.sg/Pages/LabourForceTimeSeries.aspx]"Resident Labour Force Participation Rate by Age and Sex". Filed was then renamed to Res_LF_PartRate
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Data_Source.png) 
+
+### 6.11 Data Cleaning in Excel 
+
+Open excel file Res_LF_PartRarte and Delete extra tab mrsd_Res_LFPR_1
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_Tab.png) 
+
+Rename sheet as Res_LFPR
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Rename_Tab.png) 
+
+Delete rows with overlapping data 
+
+* Rows 16, 33, 50 contain age groups "70 & over" which overlap with "70 to 74" and "75 and Over"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_rows.png)
+
+Delete extra rows
+
+* Delete rows 51-56 which have extra information
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_Info.png)
+
+* Delete row 2,17,32,33,45 are empty with no data inside
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_Em_Rows.png)
+
+Delete table title
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_Tit.png)
+
+Rename header to Age Group
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Rename_Header.png)
+
+Delete Column S "2007^a" which has redundant data as column R
+
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Del_Col_S.png)
+
+Change row labels to distingush between Males Age Groups and Females Age Groups
+
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Rename_Row_Labels.png)
+
+Save changes to file Res_LF_PartRarte
+
+### 6.2 Data Cleaning in Tableau
+Open excel file Res_LF_PartRate in Tableau 
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Open_Excel.png)
+
+Create Pivot Table
+
+* Select all year and right click Pivot
+ ![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Pivot.png)
+ 
+Change Pivot Table Header
+
+* Change header names to "Year" & "Labor Force Participation Rate (%)"
+  
+* Change data types within Pivot Table
+
+* Change "Year" data type to date
+  ![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Pivot_Year.png)
+
+Change "Labor Force Participation Rate (%)" data type to decimal
+  ![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Pivot_Labor.png)
+  
+Export data to csv format
+ ![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Export_csv.png)
+
+Save Excel file as LFPR_Cleaned.
+
+### **7.0 Proposed Data Visualization Step-by-Step Guide**
+
+Open Excel file LFPR_Cleaned in Tableau
+ 
+### 7.1 Create a line chart
+
+Go to Sheet 1
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Go_Sheet1.png)
+
+Construct a line chart of Total Labor Participation Rate based on gender
+
+* Put "Year" in Column and "Labor Force Participation Rate (%)" in row
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Line.png)
+
+Filter "Labor Force Participation Rate (%)" to get rid of the Null Value
+
+* Right click on "SUM(Labor Force Participation Rate (%)" and select "Edit Filter"
+
+* Navigate to the most right box "Special" and click "Non-null values"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Line_Filter.png)
+
+Change Marks from "Automatic" to "Line"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Line_Marks.png)
+
+Drag "Age Group" in Filter and select "Females" and "Males"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Filter_Age_Group.png)
+
+Change Line Colors
+
+* Drag "Age Group" in Color
+
+* Navigate to the the Age Group legend to the right and change colors 
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Line_Legend_Color.png)
+
+Add annotations
+
+* Right click on the first point on the blue line and select "annotate" then "point"
+
+* change the annotation content and format as below
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Line_Annotate.png)
+
+* Repeat the same step for the last point of blue line, as well as first and last point of red line
+*Make sure to change the font color for annotations on red line to red*
+
+Change annotation formats
+
+* Right click on the first annotation and select "format"
+
+* Change the format as below
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Format_Annotate.png)
+
+* Repeat the steps for four annotations
+
+Add annotations to reflect changes in labor force participation 
+
+* Right click the middle of the blue line and then select "Annotate" then "Area"
+
+* Enter the difference between the 1991 to 2021 in percentage 
+
+* Repeat the same steps for annotations on the red line 
+
+* Change the annotation content and format as below
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Add_Annotate.png)
+* Repeat the same steps to format the newly added annotations
+
+Add Caption
+
+* Right click on chart and select "Caption"
+
+* Add two captions 
+1. Residents refer to Singapore Citizens and Permanent Residents.
+2. Data for 1995, 2000 and 2005 are not available as the Comprehensive Labor Force Survey was not conducted in these years due to the conduct of the Census and General Household Survey by the Singapore Department of Statistics.
+
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Edit_Cap.png)
+
+Change Chart Header
+
+* Change Chart header to "Shift in Residents Labor Participation Rate by Sex, 1991-2021"
+
+* Add a Sub-header to summarize the finding "Male Singapore residents have maintained a stable participation in the labor force while female Singapore residents have increased their participation in the labor force by 17 percent in the 20 year span
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Line_Title.png)
+
+
+Change view
+
+* Change view setting from standard to entire view
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_View.png)
+
+* Change Chart name to "Line Chart"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Line_Name.png)
+
+### 7.2 Create a bar chart
+
+Construct a bar chart of Total Labor Participation Rate based on Age Group
+
+* Add a new sheet and rename it "Bar Chart"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Bar.png)
+
+* Drag "Age Group" and "Year" into columns and "Labor Force Participation Rate (%)" into rows
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Assign_Col_Row.png)
+
+Filter out null values
+
+* Right click "Labor Force Participation Rate (%) " -> "Filter" -> "Non- Null dates"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Filter_Not_Null.png)
+
+
+Filter Age Group
+
+* Right click "Age Group " -> "Filter" and select all age groups from "15-19" to "75 & Over"
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Filter_Age_GroupAll.png)
+
+Change Chart Type
+
+* Select "Show Me" and then "Side to Side" Bar Chart
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Side_Bar.png)
+
+Change Color
+
+* Remove "Year" in Color 
+* Drag and drop "Age Group" in color
+* Change Color Palette to Blue
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Color_Scheme.png)
+
+Add Trend Line
+
+* Right click -> Select Trend Lines -> Show Trend Line
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Add_Trend_Line.png)
+
+Change Chart Header
+
+* Rename Chart header and add a subheader to showcase trend
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Change_Chart_Header.png)
+
+### 7.3 Create a dashboard
+
+Create a new dashboard name "Dashboard"
+
+* Drag and drop both Line Chart and Bar Chart over
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Cre_Dashboard_1.png)
+
+* Rename legend for the bar chart 
+* Right click on the bottom legend -> Edit Title
+* Change Title to Sex
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Fin_Dashboard.png)
+
+Add Caption to Dashboard
+![](D:/chentaoliu01/ISSS608/VA/_site/Data_Viz/Screenshot/Add_Dashboard_Cap.png)
+
+
+### **8.0 Final Visualization**
+Final visualization can be find here [https://public.tableau.com/app/profile/amber4086/viz/ResidentsLaborParticipationRate1991-2021/Dashboard]
+
+### 8.1 Observation #1
+Singapore residents within the age group 60 to 64 have increased their participation in the labor force the most from 1991 to 2001
+
+### 8.2 Observation #2
+Singapore residents within the age group 20 to 24 have decreased their participation in the labor force the most from 1991 to 2001
+
+### 8.3 Observation #3
+Males singapore residents' participation in the labor force have been relatively stable frpm 1991 to 2001 with a decrease of 2.2 %
+
+### 8.3 Observation #3
+Females singapore residents' participation in the labor force have largest increased frpm 1991 to 2001 with an increase of 16.2 %
