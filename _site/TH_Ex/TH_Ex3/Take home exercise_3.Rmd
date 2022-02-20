@@ -1,0 +1,113 @@
+---
+title: "Take Home Exercise 3"
+description: |
+ This article is about creating a visualisation showing average rating and proportion of cocoa percent(% chocolate) greather than or equal to 70% by top 15 company locaton. 
+ 
+author:
+  - name: Chentao Liu
+    url: https://www.linkedin.com/in/amber-chentao-liu/
+    affiliation: Master of IT in Business at SMU
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Assumptions
+1. I have assumed that the visualisation excludes all chocolate products with cocoa percent less than 70% 
+2. I have assumed that "average rating" refers to the mean rating of all chocolate rating of companies in each location 
+3. I have also assumed that the "top 15 company location" is determined by ranking all company locations' by average rating then average cocoa percent from greater to smallest and selecting the top 15
+
+## Installing and loading the required packages
+
+```{r}
+packages = c('tidyverse', 'readxl', 'knitr')
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+## Data import
+
+```{r}
+cho<- read_csv("data/chocolate.csv")
+```
+## Data cleaning
+
+### remove percentage sign in column cocoa_percent to change data format from string to numeric
+```{r}
+cho$cocoa_percent = as.numeric(gsub("[\\%,]", "", cho$cocoa_percent))
+```
+
+### remove chocolate with cocoa percentage smaller than 70%
+```{r}
+cho_mod <-subset(cho, cocoa_percent >= 70)
+```
+
+## Data Wrangling
+
+### get the average rating of product containing cocoa percentage greater or equal to 70% by company location
+```{r}
+cho_mod_avg <-cho_mod %>% 
+   group_by(company_location) %>%
+   summarize(avg_rating = mean(rating, na.rm=TRUE)) %>%
+   ungroup()
+```
+
+### get the average cocoa percentage of product containing cocoa percentage greater or equal to 70% by company location
+```{r}
+cho_mod_percent <- cho_mod %>% 
+  group_by(company_location) %>%
+  summarize(avg_cocoa_percent = mean(cocoa_percent, na.rm=TRUE)) %>%
+  ungroup()
+```
+
+### merging cho_mod_avg and cho_mod_percent with company location
+```{r}
+cho_new = merge(cho_mod_avg,cho_mod_percent, by= "company_location")
+```
+
+### get the top 15 company loctaion by arranging cho_new in descending order by average rating then by average cocoa percentage
+```{r}
+cho_new_desc <- cho_new[order(-cho_new$avg_rating, -cho_new$avg_cocoa_percent),]
+cho_top15 <- cho_new_desc[1:15, ]
+```
+
+### find the cocoa percenatge of top 15 company
+```{r}
+cho_top15_coco_percent <-cho_mod[cho_mod$company_location %in% c("Chile","Fiji","Denmark","Switzerland","Poland","Vietnam","Colombia",
+  "Guatemala","Australia","U.A.E","Argentina","Amsterdam","Thailand",
+  "Canada","Scotland"),]
+```
+### merg cho_top15_coco_percent with cho_mod_avg to get average rating as well as cocoa percentage of top 15 company locations
+```{r}
+cho_final = merge(cho_top15,cho_top15_coco_percent, by= "company_location")
+```
+                                                            
+
+## Visualisation- scatterplot
+
+### Scatterplot was chosen becasue the goal to visualize the relationship between two continous variables cocoa percentage and cocao rating. 
+
+### graphing the scatterplot
+```{r fig.align="center", echo = FALSE,fig.width = 8,height = 9}
+p <-ggplot(cho_final, aes(x = cocoa_percent, y = avg_rating)) +
+    geom_point(aes(color =factor(company_location))) +
+    geom_smooth(method = "lm")
+p+
+ labs(  x = "Proporation of cacao(% of chocolate)",
+        y = "Average Rating by Company Location",
+        title = "No relationship between cacao percentage and chocoloate rating",
+        subtitle = "Avergae rating by company location doen't get affected by changes in cacao percent") +
+        theme(plot.title = element_text(hjust=0.5, size=12, face='bold')) 
+```
+
+
+
+
+
