@@ -102,8 +102,8 @@ p <-ggplot(cho_final, aes(x = cocoa_percent, y = avg_rating)) +
 p+
  labs(  x = "Proporation of cacao(% of chocolate)",
         y = "Average Rating by Company Location",
-        title = "No relationship between cacao percentage and chocoloate rating",
-        subtitle = "Avergae rating by company location doen't get affected by changes in cacao percent") +
+        title = "No relationship between chocolate percentage and chocoloate rating",
+        subtitle = "Avergae rating by company location doen't get affected by changes in chocolate percentage") +
         theme(plot.title = element_text(hjust=0.5, size=12, face='bold')) 
 ```
 
